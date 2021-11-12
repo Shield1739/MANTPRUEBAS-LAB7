@@ -37,4 +37,28 @@ class Calculadora
 
         return $nums;
     }
+
+    function capturarEntradasPermutacion()
+    {
+
+    }
+
+    function calcularPermutacion($n, $r)
+    {
+        $top = $this->calcularFactorial($n);
+        $bot = $this->calcularFactorial($n - $r);
+
+        return $top/$bot;
+    }
+
+    function calcularFactorial($numero)
+    {
+        $factorial = 1;
+        if($numero > 1){
+            for($i = 2; $i <= $numero; $i++){
+                $factorial *= $i;
+            }
+        }
+        return $factorial;
+    }
 }

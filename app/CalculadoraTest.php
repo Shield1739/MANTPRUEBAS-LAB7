@@ -90,4 +90,48 @@ class CalculadoraTest extends TestCase
         $this->assertEmpty($calculadora->generarArreglo(), "error en generar arreglo (assert empty)");
         $this->assertNotEmpty($calculadora->generarArreglo(), "error en generar arreglo (assert not empty)");
     }
+
+    public function testCapturarEntradasPermutacion()
+    {
+        // Se crea el doble de prueba para la clase Calculadora, método 'capturarEntradasPermutacion'
+        $stub = $this->createMock('Calculadora');
+        $stub->method('capturarEntradasPermutacion')
+            ->willReturn(array(5, 3));
+
+        $this->assertSame(array(5, 3), $stub->capturarEntradasPermutacion());
+
+    }
+
+    public function testCalcularPermutacion()
+    {
+        /* Se crea un mock para la clase Calculadora.
+         Solo se hace mock al método calcularFactorial*/
+        $mock = $this->getMockBuilder('Calculadora')
+            ->onlyMethods(array('calcularFactorial'))
+            ->getMock();
+
+        /* Se configuran las expectativas para el método calcularFactorial
+                se llamará dos veces y devolverá 120 y 6, en cada ocasión, respectivamente. */
+        $mock->expects($this->exactly(2))
+            ->method('calcularFactorial')
+            ->will($this->onConsecutiveCalls(120, 6));
+
+        /* Se hace el assert. */
+        $this->assertSame(20, $mock->calcularPermutacion(5, 2));
+    }
+
+    public function testComprobarLlamada()
+    {
+        $mock = $this->getMockBuilder('Calculadora')
+            ->onlyMethods(array('calcularFactorial'))
+            ->getMock();
+
+        $mock->expects($this->exactly(2))
+            ->method('calcularFactorial')
+            ->withConsecutive([5], [3])
+            ->will($this->onConsecutiveCalls(120, 6));
+
+       $this->assertEquals(120, $mock->calcularFactorial(5));
+       $this->assertEquals(6, $mock->calcularFactorial(3));
+    }
 }
